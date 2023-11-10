@@ -1,6 +1,26 @@
 {
   "dependencies": {
+    "jest": "^29.7.0",
     "pg": "^8.11.3",
     "pg-promise": "^11.5.4"
-  }
+  },
+  "name": "todo_cli",
+  "description": "For the first phase of the project, the developer should construct a command-line tool that allows a user to create new tasks and complete them with the following commands.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/c-blomquist/TODO-CLI.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/c-blomquist/TODO-CLI/issues"
+  },
+  "homepage": "https://github.com/c-blomquist/TODO-CLI#readme"
 }
