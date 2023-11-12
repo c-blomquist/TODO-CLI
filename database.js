@@ -1,5 +1,5 @@
 const pgp = require('pg-promise')();
-const db = pgp(/* insert database connection string here */)
+const db = pgp('postgres://postgres:data101@localhost/todo')
 
 module.exports = {
     db,
