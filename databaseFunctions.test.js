@@ -8,7 +8,15 @@ const mockTestTask = {
 
 const mockAddTask = {
     id: 2
-}
+};
+
+const mockCompletedTestTask = {
+    id: 1,
+    name: 'Test Task',
+    completed: true,
+    createdData: new Date(),
+    completedDate: new Date()
+};
 
 // mock of database module to "simulate" database entry and retrival
 jest.mock('./database', () => {
@@ -57,5 +65,15 @@ describe('Database functions unit tests', () => {
         test('Undefined input', async () => {
             await expect(() => server.addTask(undefined)).rejects.toEqual(new Error('The input was undefined!'));
         })
+    });
+
+    test('Completing a task', async () => {
+        jest.mocked(db).one.mockResolvedValueOnce(mockTestTask);
+        jest.mocked(db).one.mockResolvedValueOnce(mockCompletedTestTask);
+
+        const res = await server.completeTask(1);
+        expect(res).toBeDefined;
+        expect(res.name).toEqual("Test Task");
+        expect(res.completed).toEqual(true);
     });
 });

@@ -41,7 +41,14 @@ if(process.argv[2] === "complete"){
     if(!process.argv[3]){
         console.error("Please enter a task to be marked as complete.");
     }
-    // TODO: add in call to post update to task to mark as completed
-    // TODO: logic to not allow completing a task that doesnt exist
-    // TODO: logic to not allow completing an already completed task
+
+    if(typeof(process.argv[3]) != Number){
+        console.error("Please enter the task ID number that you want to complete.");
+    }
+    
+    server.completeTask(process.argv[3]).then(res => {
+        console.log(`Task ${res.name} completed on: ${res.completeddate}.`);
+    }).catch(err => {
+        console.error("Problem with completing a task: " + err);
+    });
 }
