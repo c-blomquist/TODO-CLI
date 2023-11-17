@@ -8,7 +8,6 @@ async function addTask(taskName) {
                         RETURNING id;`;
 
         const res = await db.one(query, [taskName]);
-        console.log(res);
         return res;
     }
     catch (err) {
@@ -48,10 +47,6 @@ async function getTask(taskID) {
         console.error("Error getting a task by ID: " + err);
         throw err;
     }
-    finally{
-        end();
-    }
-
 }
 
 async function completeTask(taskID) {
