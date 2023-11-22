@@ -5,7 +5,7 @@ const db = require("./databaseFunctions.js");
 
 
 async function listTasks() {
-    db.getTasks().then(res => {
+    await db.getTasks().then(res => {
         if(res.length == 0) {
             console.log("No tasks were found in database.");
         }
@@ -25,7 +25,7 @@ async function createTask(taskName) {
         console.error("Please give the name of the task as a string.");
     }
     else{
-        db.addTask(taskName).then(res => {
+        await db.addTask(taskName).then(res => {
             console.log(`Task added with the ID of: ${res.id}`);
         }).catch(err => {
             console.error("Error with adding a task: "+ err);
@@ -42,7 +42,7 @@ async function completeTask(taskID) {
         console.error("Please enter the task ID number that you want to complete.");
     }
     else{
-        db.completeTask(taskID).then(res => {
+        await db.completeTask(taskID).then(res => {
             console.log(`Task ${res.name} completed on: ${res.completeddate}.`);
         }).catch(err => {
             console.error("Error with completing a task: " + err);
