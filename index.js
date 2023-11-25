@@ -34,11 +34,11 @@ async function createTask(taskName) {
 }
 
 async function completeTask(taskID) {
+    console.log(typeof(taskID))
     if(!taskID){
         console.error("Please enter a task to be marked as complete.");
     }
-
-    if(typeof(parseInt(taskID)) !== 'number' && parseInt(taskID) < 0){
+    if(!/^\d+$/.test(taskID)){
         console.error("Please enter the task ID number that you want to complete.");
     }
     else{

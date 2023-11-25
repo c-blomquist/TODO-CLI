@@ -6,23 +6,23 @@ const mockTaskOne = {
     id: 1,
     name: 'Test One',
     completed: false,
-    createdData: new Date(),
-    completedDate: new Date()
+    createddate: new Date(),
+    completeddate: undefined,
 }
 
 const mockTaskTwo = {
     id: 2,
     name: 'Test Two',
     completed: true,
-    createdData: new Date(),
-    completedDate: new Date()
+    createddate: new Date(),
+    completeddate: new Date(),
 }
 
 jest.mock('./databaseFunctions.js', () =>{
     return {
             getTasks: jest.fn().mockResolvedValue([mockTaskOne, mockTaskTwo]),
             addTask: jest.fn().mockResolvedValue(mockCreateTaskRes),
-            completeTask: jest.fn()
+            completeTask: jest.fn().mockResolvedValue(mockTaskTwo)
         }
 });
 const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
@@ -38,10 +38,8 @@ describe('Test command line parsing:', () => {
 
     describe(`Testing createTask`, () => {
         test('Adding a task', async () => {
-
             await server.createTask('Test task');
             
-    
             expect(consoleLogSpy).toHaveBeenCalledWith(`Task added with the ID of: ${mockCreateTaskRes.id}`);
         });
 
@@ -82,7 +80,41 @@ describe('Test command line parsing:', () => {
 
             await server.listTasks();
 
-            expect(consoleLogSpy).toHaveBeenCalled();
+            expect(consoleLogSpy).toHaveBeenCalledWith("No tasks were found in database.");
         });
+    });
+
+    describe('Testing completeTask', () => {
+        test('Succesful task completion', async () => {
+            await server.completeTask(2);
+            
+            expect(consoleLogSpy).toHaveBeenCalledWith(`Task ${mockTaskTwo.name} completed on: ${mockTaskTwo.completeddate}.`)
+        });
+        
+        test('No id inputted for task completion', async () => {
+            await server.completeTask();
+
+            expect(consoleErrorSpy).toHaveBeenCalledWith("Please enter a task to be marked as complete.")
+        });
+
+        test('Inputted ID was not an integer error', async () => {
+            await server.completeTask("test");
+
+            expect(consoleErrorSpy).toHaveBeenCalledWith("Please enter the task ID number that you want to complete.");
+        });
+
+        test('Inputted ID was below 0, therefore not a taskID', async () => {
+            await server.completeTask(-1);
+
+            expect(consoleErrorSpy).toHaveBeenCalledWith("Please enter the task ID number that you want to complete.");
+        });
+
+        test('Error completing db.completeTask', async () => {
+            jest.mocked(functions).completeTask.mockRejectedValueOnce(new Error("Error completing task"));
+
+            await server.completeTask(2);
+
+            expect(consoleErrorSpy).toHaveBeenCalledWith('Error with completing a task: Error: Error completing task')
+        })
     });
 });
