@@ -6,16 +6,16 @@ const mockTaskOne = {
     id: 1,
     name: 'Test One',
     completed: false,
-    createddate: new Date(),
-    completeddate: undefined,
+    created_date: new Date(),
+    completed_date: undefined,
 }
 
 const mockTaskTwo = {
     id: 2,
     name: 'Test Two',
     completed: true,
-    createddate: new Date(),
-    completeddate: new Date(),
+    created_date: new Date(),
+    completed_date: new Date(),
 }
 
 jest.mock('./databaseFunctions.js', () =>{
@@ -88,7 +88,7 @@ describe('Test command line parsing:', () => {
         test('Succesful task completion', async () => {
             await server.completeTask(2);
             
-            expect(consoleLogSpy).toHaveBeenCalledWith(`Task ${mockTaskTwo.name} completed on: ${mockTaskTwo.completeddate}.`)
+            expect(consoleLogSpy).toHaveBeenCalledWith(`Task ${mockTaskTwo.name} completed on: ${mockTaskTwo.completed_date}.`)
         });
         
         test('No id inputted for task completion', async () => {
