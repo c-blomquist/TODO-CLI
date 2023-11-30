@@ -41,7 +41,6 @@ async function createTask(taskName) {
 }
 
 async function completeTask(taskID) {
-  console.log(typeof taskID);
   if (!taskID) {
     console.error("Please enter a task to be marked as complete.");
   }

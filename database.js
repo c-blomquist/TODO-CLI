@@ -3,8 +3,7 @@ const jsonData = require("./credentials.json");
 
 const db = pgp({
   connectionString: `postgres://${jsonData.username}:${jsonData.password}@${jsonData.host}:5432/${jsonData.database}`,
-  max: 30,
-  ssl: { rejectUnauthorized: false },
+  ssl: { rejectUnauthorized: false }
 });
 
 module.exports = {
