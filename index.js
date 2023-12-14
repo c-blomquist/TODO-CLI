@@ -1,7 +1,5 @@
 const db = require("./databaseFunctions.js");
 
-// TODO: Setup remote database connection instead of just locally hosted
-// TODO: check for internet connection to be able to grab items from database
 
 async function listTasks() {
   await db
