@@ -94,7 +94,7 @@ describe('Test command line parsing:', () => {
         test('No id inputted for task completion', async () => {
             await server.completeTask();
 
-            expect(consoleErrorSpy).toHaveBeenCalledWith("Please enter a task to be marked as complete.")
+            expect(consoleErrorSpy).toHaveBeenCalledWith("Please enter the ID of a task to be marked as complete.")
         });
 
         test('Inputted ID was not an integer error', async () => {
@@ -114,7 +114,7 @@ describe('Test command line parsing:', () => {
 
             await server.completeTask(2);
 
-            expect(consoleErrorSpy).toHaveBeenCalledWith('Error with completing a task: Error: Error completing task')
+            expect(consoleErrorSpy).toHaveBeenCalledWith('Error completing selected task: Error: Error completing task')
         })
     });
 });
