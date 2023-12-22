@@ -25,8 +25,7 @@ async function listTasks() {
 async function createTask(taskName) {
   if (!taskName) {
     console.error("Please enter a task name to create.");
-  }
-  if (typeof taskName !== "string") {
+  } else if (typeof taskName !== "string") {
     console.error("Please give the name of the task as a string.");
   } else {
     await db
@@ -43,8 +42,7 @@ async function createTask(taskName) {
 async function completeTask(taskID) {
   if (!taskID) {
     console.error("Please enter the ID of a task to be marked as complete.");
-  }
-  if (!/^\d+$/.test(taskID)) {
+  } else if (!/^\d+$/.test(taskID)) {
     console.error("Please enter the task ID number that you want to complete.");
   } else {
     await db
@@ -60,21 +58,14 @@ async function completeTask(taskID) {
 
 if (process.argv.length < 3) {
   console.error("Please input a command.");
-}
-
-// lists all tasks and their status, example: node index.js list
-if (process.argv[2] === "list") {
+} else if (process.argv[2] === "list") {
   listTasks();
-}
-
-// create a new task, example: node index.js create "This is my new task"
-if (process.argv[2] === "create") {
+} else if (process.argv[2] === "create") {
   createTask(process.argv[3]);
-}
-
-// complete a new task, example: node index.js complete 1
-if (process.argv[2] === "complete") {
+} else if (process.argv[2] === "complete") {
   completeTask(process.argv[3]);
+} else {
+  console.error("Incorrect command inputted.");
 }
 
 module.exports = {
