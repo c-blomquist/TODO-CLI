@@ -1,25 +1,20 @@
 const db = require("./databaseFunctions.js");
 
-// TODO: Setup remote database connection instead of just locally hosted
-// TODO: check for internet connection to be able to grab items from database
-
 async function listTasks() {
-  await db
-    .getTasks()
-    .then((res) => {
-      if (res.length == 0) {
-        console.log("No tasks were found in database.");
-      } else {
-        res.forEach((task) => {
-          console.log(
-            `ID: ${task.id}, Task name: ${task.name}, Completion status: ${task.completed}`
-          );
-        });
-      }
-    })
-    .catch((err) => {
-      console.error("Error with tasks returned: " + err);
-    });
+  try {
+    const res = await db.getTasks();
+    if (res.length == 0) {
+      console.log("No tasks were found in database.");
+    } else {
+      res.forEach((task) => {
+        console.log(
+          `ID: ${task.id}, Task name: ${task.name}, Completion status: ${task.completed}`
+        );
+      });
+    }
+  } catch (error) {
+    console.error("Error with tasks returned: " + error);
+  }
 }
 
 async function createTask(taskName) {
@@ -28,14 +23,12 @@ async function createTask(taskName) {
   } else if (typeof taskName !== "string") {
     console.error("Please give the name of the task as a string.");
   } else {
-    await db
-      .addTask(taskName)
-      .then((res) => {
-        console.log(`Task added with the ID of: ${res.id}`);
-      })
-      .catch((err) => {
-        console.error("Error with adding a task: " + err);
-      });
+    try {
+      const res = await db.addTask(taskName);
+      console.log(`Task added with the ID of: ${res.id}`);
+    } catch (error) {
+      console.error("Error with adding a task: " + error);
+    }
   }
 }
 
@@ -45,16 +38,16 @@ async function completeTask(taskID) {
   } else if (!/^\d+$/.test(taskID)) {
     console.error("Please enter the task ID number that you want to complete.");
   } else {
-    await db
-      .completeTask(taskID)
-      .then((res) => {
-        console.log(`Task ${res.name} completed on: ${res.completed_date}.`);
-      })
-      .catch((err) => {
-        console.error("Error with completing a task: " + err);
-      });
+    try {
+      const res = db.completeTask(taskID);
+      console.log(`Task ${res.name} completed on: ${res.completed_date}.`);
+    } catch (error) {
+      console.error("Error with completing a task: " + error);
+    }
   }
 }
+
+
 
 if (process.argv.length < 3) {
   console.error("Please input a command.");
