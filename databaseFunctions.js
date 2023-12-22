@@ -1,6 +1,10 @@
 const { db, end } = require("./database.js");
 
-// Takes in task name for creation and outputs the id of the created task
+/**
+ * 
+ * @param {string} taskName - The name of the task being added in 
+ * @returns The id for the task that was created
+ */
 function addTask(taskName) {
   try {
     const query = `INSERT INTO task (name, completed, created_date)
@@ -15,6 +19,10 @@ function addTask(taskName) {
   }
 }
 
+/**
+ * 
+ * @returns Array of all tasks from the database table
+ */
 function getTasks() {
   try {
     const query = `SELECT id, name, completed 
@@ -27,6 +35,11 @@ function getTasks() {
   }
 }
 
+/**
+ * 
+ * @param {string} taskID - ID of the task to be selected
+ * @returns The task that has the inputted id
+ */
 function getTask(taskID) {
   try {
     const query = `SELECT id, completed
@@ -38,6 +51,11 @@ function getTask(taskID) {
   }
 }
 
+/**
+ * 
+ * @param {string} taskID - ID of the task to be completed 
+ * @returns The id, completion status, and completion date of the task
+ */
 async function completeTask(taskID) {
   try {
     const task = await getTask(taskID);
