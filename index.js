@@ -6,6 +6,7 @@ async function listTasks() {
     if (res.length == 0) {
       console.log("No tasks were found in database.");
     } else {
+      res.sort((a, b) => a.id - b.id);
       res.forEach((task) => {
         console.log(
           `ID: ${task.id}, Task name: ${task.name}, Completion status: ${task.completed}`
@@ -39,15 +40,13 @@ async function completeTask(taskID) {
     console.error("Please enter the task ID number that you want to complete.");
   } else {
     try {
-      const res = db.completeTask(taskID);
+      const res = await db.completeTask(taskID);
       console.log(`Task ${res.name} completed on: ${res.completed_date}.`);
     } catch (error) {
-      console.error("Error with completing a task: " + error);
+      console.error("Error completing selected task: " + error);
     }
   }
 }
-
-
 
 if (process.argv.length < 3) {
   console.error("Please input a command.");

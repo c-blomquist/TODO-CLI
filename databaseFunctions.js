@@ -8,8 +8,8 @@ function addTask(taskName) {
                   RETURNING id;`;
 
     return db.one(query, [taskName]);
-  } catch (err) {
-    throw err;
+  } catch (error) {
+    throw error;
   } finally {
     end();
   }
@@ -20,8 +20,8 @@ function getTasks() {
     const query = `SELECT id, name, completed 
                   FROM task;`;
     return db.manyOrNone(query);
-  } catch (err) {
-    throw err;
+  } catch (error) {
+    throw error;
   } finally {
     end();
   }
@@ -33,8 +33,8 @@ function getTask(taskID) {
                   FROM task
                   WHERE id = $1;`;
     return db.one(query, [taskID]);
-  } catch (err) {
-    throw err;
+  } catch (error) {
+    throw error;
   }
 }
 
@@ -48,9 +48,9 @@ async function completeTask(taskID) {
                   SET completed = true, completed_date = NOW()
                   WHERE id = $1
                   RETURNING name, completed, completed_date;`;
-    return db.one(query, [taskID]);
-  } catch (err) {
-    throw err;
+    return await db.one(query, [taskID]);
+  } catch (error) {
+    throw error;
   } finally {
     end();
   }
