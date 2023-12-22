@@ -4,8 +4,8 @@ const { db, end } = require("./database.js");
 function addTask(taskName) {
   try {
     const query = `INSERT INTO task (name, completed, created_date)
-                        VALUES ($1, false, NOW())
-                        RETURNING id;`;
+                  VALUES ($1, false, NOW())
+                  RETURNING id;`;
 
     return db.one(query, [taskName]);
   } catch (err) {
@@ -18,7 +18,7 @@ function addTask(taskName) {
 function getTasks() {
   try {
     const query = `SELECT id, name, completed 
-                        FROM task;`;
+                  FROM task;`;
     return db.manyOrNone(query);
   } catch (err) {
     throw err;
@@ -30,8 +30,8 @@ function getTasks() {
 function getTask(taskID) {
   try {
     const query = `SELECT id, completed
-                        FROM task
-                        WHERE id = $1;`;
+                  FROM task
+                  WHERE id = $1;`;
     return db.one(query, [taskID]);
   } catch (err) {
     throw err;
@@ -44,10 +44,10 @@ async function completeTask(taskID) {
     if (task.completed == true) {
       throw new Error("Task is already completed!");
     }
-    const query = `UPDATE task
-                        SET completed = true, completed_date = NOW()
-                        WHERE id = $1
-                        RETURNING name, completed, completed_date;`;
+    const query = `UPDATE task 
+                  SET completed = true, completed_date = NOW()
+                  WHERE id = $1
+                  RETURNING name, completed, completed_date;`;
     return db.one(query, [taskID]);
   } catch (err) {
     throw err;
